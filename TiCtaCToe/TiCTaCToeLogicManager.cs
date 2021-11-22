@@ -10,6 +10,7 @@ namespace TiCtaCToe
     class TiCTaCToeLogicManager
     {
         private Zone[] zoneArray = new Zone[9];
+        private bool gameEnded = false;
 
         public enum STATE
         {
@@ -72,9 +73,23 @@ namespace TiCtaCToe
 
         public void ButtonsClicked(int clickedButtonNumber)
         {
-            System.Console.WriteLine("Klik1");
-            ChangeZoneState(zoneArray[clickedButtonNumber]);
-            BotAction();
+            if (!gameEnded)
+            {
+                if (zoneArray[clickedButtonNumber].State == STATE.EMPTY)
+                {
+                    ChangeZoneState(zoneArray[clickedButtonNumber]);
+                    BotAction();
+                }
+            }
+            else
+            {
+                foreach (Zone zone in zoneArray) // Reseting game
+                {
+                    zone.Button.Text = zone.Button.Name;
+                    zone.State = STATE.EMPTY;
+                    gameEnded = false;
+                }
+            }
         }
 
         private void CheckForWinner()
@@ -126,11 +141,13 @@ namespace TiCtaCToe
                     case STATE.X:
                         {
                             ChangeTextForAllButtons("Wygrałeś!");
+                            gameEnded = true;
                             break;
                         }
                     case STATE.O:
                         {
                             ChangeTextForAllButtons("Przegrałeś!");
+                            gameEnded = true;
                             break;
                         }
                 }
