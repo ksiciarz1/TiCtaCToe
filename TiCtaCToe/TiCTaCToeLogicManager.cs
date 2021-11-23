@@ -85,7 +85,7 @@ namespace TiCtaCToe
             {
                 foreach (Zone zone in zoneArray) // Reseting game
                 {
-                    zone.Button.Text = zone.Button.Name;
+                    zone.Button.Text = " ";
                     zone.State = STATE.EMPTY;
                     gameEnded = false;
                 }
@@ -172,8 +172,8 @@ namespace TiCtaCToe
             }
             else
             {
-                CheckForWinner();
                 ChangeTextForAllButtons("Remis!");
+                gameEnded = true;
             }
             CheckForWinner();
         }
